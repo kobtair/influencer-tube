@@ -43,7 +43,7 @@ const Carousel = () => {
         >
           <FaArrowLeft />
         </div>
-        <div className="content flex justify-center no-scrollbar overflow-x-scroll">
+        <div className="content flex justify-center ">
           {/* {reviews.map(({ review, reviewer }, i) => ( */}
           <CarouselCard
             review={reviews[currentReview].review}

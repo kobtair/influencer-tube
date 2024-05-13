@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const User = require("./models/User");
 const bcrypt = require("bcrypt");
 const Influencer = require("./models/Influencer");
+const {createTokens, validateToken} = require("./JWT")
+const cookieParser = require("cookie-parser")
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -14,6 +16,7 @@ mongoose
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Welcome");
@@ -99,13 +102,18 @@ app.post("/login/brand", async (req, res) => {
   bcrypt.compare(pass, dbPass).then((match) => {
     if (!match) res.status(400).json("Wrong credentials");
     else {
+      const accessToken = createTokens(user);
+      res.cookie("access-token", accessToken, {
+        maxAge: 60*60*24*30*1000
+      })
       res.json("User logged in succesfully");
     }
   });
 });
 
-app.get("/profile/:id", (req, res) => {
+app.get("/profile/:id", validateToken, (req, res) => {
   const id = req.params.id;
+  res.send("hello")
 });
 
 const port = process.env.PORT;
