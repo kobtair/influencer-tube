@@ -5,6 +5,7 @@ import { FaFilter } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -16,13 +17,13 @@ const Navbar = () => {
   return (
     <>
       <nav className="bg-[#202020] h-16 flex  justify-between items-center ">
-        <div className="logo flex items-center">
+        <Link to={'/'} className="logo flex items-center cursor-pointer">
           <img
             className="h-10 w-32 flex items-center m-2 p-1"
             src={log}
             alt=""
           />
-        </div>
+        </Link >
         <div className="right flex mx-12 items-center">
           {pathname === "/dashboard" && (
             <div className="right   flex ">
