@@ -1,19 +1,15 @@
 import dp from "../assets/review-image.jpeg";
 import { RiStarFill } from "react-icons/ri";
 
-const CarouselCard = () => {
+const CarouselCard = ({review, reviewer}) => {
   return (
-    <div className="carousel-card mx-20">
+    <div className="carousel-card mx-20 flex flex-col gap-y-5 text-center items-center w-1/3">
       <div className="display-picture w-36 aspect-square overflow-hidden border-2 border-solid border-white rounded-full">
         <img className="max-h-full max-w-full " src={dp} alt="review image" />
       </div>
       <div className="review-text">
         <p>
-          Outstanding service! This platform revolutionized my business's
-          marketing strategy. Hiring influencers was effortless, and the impact
-          on brand visibility and sales was immediate. The team provided
-          exceptional support throughout the process. I couldn't be happier with
-          the results.{" "}
+         {review}
         </p>
       </div>
       <div className="rating flex">
@@ -24,8 +20,7 @@ const CarouselCard = () => {
         <RiStarFill />
       </div>
       <div className="reviewer-name text-xl font-semibold">
-        {" "}
-        Oliver Mitchell
+        {reviewer}
       </div>
     </div>
   );
