@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import dot from "../Assets/Capture.PNG";
+import dot from "../assets/Capture.PNG";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { MdCheckBox } from "react-icons/md";
 const Inputs = () => {

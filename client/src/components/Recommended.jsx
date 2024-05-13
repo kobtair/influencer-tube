@@ -1,7 +1,8 @@
 import React from "react";
-import img1 from "../Assets/free-images.jpg";
+import img1 from "../assets/free-images.jpg";
+import InfluencerCard from "./InfluencerCard";
 
-const Recumended = () => {
+const Recommended = () => {
   const dummyData = [
     { location: "usa", name: "John", img: img1, type: "a/b/c" },
     { location: "usa", name: "Emma", img: img1, type: "a/b/c" },
@@ -18,25 +19,12 @@ const Recumended = () => {
   ];
   return (
     <>
-      <div className="text-3xl bg-black text-white font-bold m-10">
-        Recumended
+      <div className="text-5xl bg-black text-white font-bold m-10 ">
+        Recommended
       </div>
-      <div className="wrap flex p-10 w-[98vw] flex-wrap">
+      <div className="wrap grid grid-cols-3 gap-20 p-10   ">
         {dummyData.map((item) => (
-          <div key={item.id}>
-            <div className="wrap">
-              <img
-                className="h-96 w-96 rounded-t-lg mx-10 mt-5 "
-                src={item.img}
-                alt={item.name}
-              />
-              <div className="imgdata ">
-                <p className="text-xl   bg-slate-200 w-96 ml-10  px-5 font-semibold">{item.name}</p>
-                <p className="text-xl  bg-slate-200 w-96 ml-10  px-5">{item.type}</p>
-                <p className="text-xl   bg-slate-200 w-96 ml-10 px-5 rounded-b-md  text-yellow-400">{item.location}</p>
-              </div>
-            </div>
-          </div>
+         <InfluencerCard item={item} />
         ))}
       </div>
       <div className="showbtn flex justify-center">
@@ -46,4 +34,4 @@ const Recumended = () => {
   );
 };
 
-export default Recumended;
+export default Recommended;

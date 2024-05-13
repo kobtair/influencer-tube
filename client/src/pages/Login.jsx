@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import artpic from "../Assets/Art.png";
-import dot from "../Assets/Capture.PNG";
+import artpic from "../assets/Art.png";
+import dot from "../assets/Capture.PNG";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { MdCheckBox } from "react-icons/md";
 const Login = () => {
@@ -30,32 +30,35 @@ const Login = () => {
                 <u>Sign Up</u>
               </p>
             </div>
-            <div class="mb-4">
+            <div className="mb-4">
               <label
-                class="block text-gray-700 text-sm font-semibold "
+                className="block text-gray-700 text-sm font-semibold "
                 for="email"
               >
                 Email Address
               </label>
               <input
-                class="border px-3 py-1 w-[32vw] rounded-lg"
+                className="border px-3 py-1 w-[32vw] rounded-lg"
                 id="email"
                 type="text"
               />
             </div>
-            <div class="mb-4">
+            <div className="mb-4">
               <label
-                class="block text-gray-700 text-sm font-semibold "
+                className="block text-gray-700 text-sm font-semibold "
                 for="email"
               >
                 Password
               </label>
               <input
-                class="border px-3 py-1 w-[32vw] rounded-lg"
+                className="border px-3 py-1 w-[32vw] rounded-lg"
                 id="email"
                 type={inputType}
               />
-              <p className="text-sm flex flex-nowrap">Use 8 are more charactors with a mix of latters,numbers & symbols</p>
+              <p className="text-sm flex flex-nowrap">
+                Use 8 are more charactors with a mix of latters,numbers &
+                symbols
+              </p>
               <button className="showpass flex items-center mt-2 cursor-pointer ">
                 <div className="svgs" onClick={handleToggle}>
                   <div
@@ -68,7 +71,6 @@ const Login = () => {
                     className={position === "second" ? "" : "hidden"}
                     onClick={handleShuffle}
                   >
-                
                     <MdCheckBox />
                   </div>
                 </div>
@@ -76,9 +78,7 @@ const Login = () => {
                 <p className="text-sm">Show Password</p>
               </button>
               <div className="regulate-screen my-2">
-                <span className="bg-black rounded-md w-6 h-0.5 text-xs mr-1 ">
-                  asdaa{" "}
-                </span>
+                <input type="checkbox" />
                 <span>Login as influencer</span>
               </div>
               <div className="btn">
