@@ -6,8 +6,9 @@ const mongoose = require("mongoose");
 const User = require("./models/User");
 const bcrypt = require("bcrypt");
 const Influencer = require("./models/Influencer");
-const {createTokens, validateToken} = require("./JWT")
-const cookieParser = require("cookie-parser")
+const { createTokens, validateToken } = require("./JWT");
+const cookieParser = require("cookie-parser");
+const instagramUsernames = require("./instaUsernames");
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -17,6 +18,7 @@ mongoose
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+
 
 app.get("/", (req, res) => {
   res.send("Welcome");
@@ -41,7 +43,6 @@ app.post("/register/brand", async (req, res) => {
       ...data,
       password: hash,
     });
-
     res.json("Brand registered successfully");
   } catch (err) {
     console.error("Error registering Brand:", err);
@@ -51,7 +52,7 @@ app.post("/register/brand", async (req, res) => {
 
 app.post("/register/influencer", async (req, res) => {
   const data = req.body;
-
+  const username = data.instagramLink.split("/")[data.instagramLink.split("/").length-1];
   try {
     const existingUser = await User.findOne({ email: data.email });
     if (existingUser) {
@@ -63,6 +64,7 @@ app.post("/register/influencer", async (req, res) => {
     const hash = await bcrypt.hash(data.password, 10);
     await Influencer.create({
       ...data,
+      username,
       password: hash,
     });
 
@@ -90,6 +92,36 @@ app.post("/login/influencer", async (req, res) => {
   });
 });
 
+app.get('/influencers', async (req, res) => {
+  try {
+    const { offset, limit, niches, search } = req.query;
+    let query = {};
+
+    if (niches) {
+      // Convert niches string to an array of niches
+      const nicheArray = niches.split(',');
+
+      // Use case-insensitive regular expression for niche matching
+      query.niche = { $regex: new RegExp(nicheArray.join('|'), 'i') };
+    }
+
+    if (search) {
+      query.fullName = { $regex: new RegExp(search, 'i') }; // Case-insensitive search
+    }
+
+    const influencers = await Influencer.find(query)
+      .skip(parseInt(offset))
+      .limit(parseInt(limit));
+
+    res.json(influencers);
+  } catch (error) {
+    console.error('Error retrieving influencers:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
 app.post("/login/brand", async (req, res) => {
   const data = req.body;
   const user = await User.findOne({ email: data.email });
@@ -104,17 +136,21 @@ app.post("/login/brand", async (req, res) => {
     else {
       const accessToken = createTokens(user);
       res.cookie("access-token", accessToken, {
-        maxAge: 60*60*24*30*1000
-      })
+        maxAge: 60 * 60 * 24 * 30 * 1000,
+      });
       res.json("User logged in succesfully");
     }
   });
 });
 
-app.get("/profile/:id", validateToken, (req, res) => {
+app.get("/profile/:id", async (req, res) => {
   const id = req.params.id;
-  res.send("hello")
+  const user = await Influencer.findOne({username: id});
+  if(!user) res.status(400).json("User does not exist")
+  res.json(user);
 });
+
+app.post("/follow/:id");
 
 const port = process.env.PORT;
 

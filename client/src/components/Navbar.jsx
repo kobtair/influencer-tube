@@ -17,13 +17,13 @@ const Navbar = () => {
   return (
     <>
       <nav className="bg-[#202020] h-16 flex  justify-between items-center ">
-        <Link to={'/'} className="logo flex items-center cursor-pointer">
+        <Link to={"/"} className="logo flex items-center cursor-pointer">
           <img
             className="h-10 w-32 flex items-center m-2 p-1"
             src={log}
             alt=""
           />
-        </Link >
+        </Link>
         <div className="right flex mx-12 items-center">
           {pathname === "/dashboard" && (
             <div className="right   flex ">
@@ -47,7 +47,25 @@ const Navbar = () => {
               {modalOpen && <Modal toggleModal={toggleModal} />}
             </div>
           )}
-
+          { pathname === "/" && <div className="flex gap-x-5">
+            <Link >
+              <button className="bg-white text-black rounded-3xl px-5 py-3">
+                Contact Us
+              </button>
+            </Link>
+            <Link to={"/register/influencer"}>
+              {" "}
+              <button className="bg-white text-black rounded-3xl px-5 py-3">
+                Join as Creator
+              </button>
+            </Link>
+            <Link to={"/login"}>
+              {" "}
+              <button className="bg-white text-black rounded-3xl px-5 py-3">
+                Log In
+              </button>
+            </Link>
+          </div>}
           <div className="hamburger text-white ml-20">
             <GiHamburgerMenu size={30} />
           </div>

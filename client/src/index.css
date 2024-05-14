@@ -2,27 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-
-@layer utilities {
-  /* Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+@layer base {
+  .font-outline-2 {
+    -webkit-text-stroke: 0.5px black;
   }
-
-  .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+  .font-outline-4 {
+    -webkit-text-stroke: 4px black;
   }
 }
-
-@layer base {
-    .font-outline-2 {
-      -webkit-text-stroke: 0.5px black;
-    }
-    .font-outline-4 {
-      -webkit-text-stroke: 4px black;
-    }
-  }
 
 body {
   font-family: "Poppins", sans-serif;
@@ -30,6 +17,6 @@ body {
   font-style: normal;
 }
 
-:root{
+:root {
   background: #000;
 }

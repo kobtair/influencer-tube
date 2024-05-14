@@ -1,18 +1,25 @@
 const mongoose = require("mongoose");
 
 const influencerSchema = new mongoose.Schema({
-  email: {
+  fullName: {
+    type: String,
+    required: true,
+  },
+  biography: {
+    type: String,
+  },
+  username: {
     type: String,
     required: true,
     unique: true,
   },
-  firstName: {
+  profilePic: {
     type: String,
-    required: true,
   },
-  lastName: {
+  email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -26,14 +33,29 @@ const influencerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  collabStyle: {
+  instagramLink: {
     type: String,
     required: true,
   },
-  links: {
-    type: Object,
-    required: true,
+  followers: {
+    type: [String],
+    default: [],
+  },
+  followerCount: {
+    type: Number,
+    default: 0,
+  },
+  username: {
+    type: String,
+  },
+  images: {
+    type: [String],
+
   }
+  // biography,
+
+  //       profile_pic_url_hd,
+  //       username,
 });
 
 const Influencer = mongoose.model("Influencer", influencerSchema);

@@ -3,7 +3,7 @@ import artpic from "../assets/Art.png";
 import Inputs from "../components/Inputs";
 const SignUpForBrand = () => {
   return (
-    <div className="main flex justify-center items-center w-[100vw] h-[100vh]">
+    <div className="main flex bg-white justify-center items-center w-[100vw] h-[100vh]">
       <div className="left">
         <img className="w-[40vw] h-[90vh]" src={artpic} alt="" />
       </div>

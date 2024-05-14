@@ -34,10 +34,10 @@ const Footer = () => {
         <div className="links">
           <h3 className="text-3xl font-semibold">Links</h3>
           <ul className="flex flex-col gap-y-3 mt-4 ">
+            <li className="font-thin cursor-pointer hover:underline">FAQ's</li>
             <li className="font-thin cursor-pointer hover:underline">Join as Brand</li>
-            <li className="font-thin cursor-pointer hover:underline">Join as Brand</li>
-            <li className="font-thin cursor-pointer hover:underline">Join as Brand</li>
-            <li className="font-thin cursor-pointer hover:underline">Join as Brand</li>
+            <li className="font-thin cursor-pointer hover:underline">Collaboration Hub</li>
+            <li className="font-thin cursor-pointer hover:underline">Reviews</li>
           </ul>
         </div>
       </div>
