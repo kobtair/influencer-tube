@@ -21,7 +21,7 @@ const EditProfile = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, profilePic: e.target.files[0] });
+    setFormData({ ...formData});
   };
 
   const handleSubmit = async (e) => {
@@ -114,18 +114,7 @@ const EditProfile = () => {
         />
       </div>
       {/* File input for profile picture */}
-      <div>
-        <label htmlFor="profilePic" className="block font-semibold mb-1">
-          Profile Picture
-        </label>
-        <input
-          type="file"
-          id="profilePic"
-          name="profilePic"
-          onChange={handleFileChange}
-          className="dark:bg-gray-700 dark:text-white border border-gray-400 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
-        />
-      </div>
+     
       <button
         type="submit"
         className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-300"

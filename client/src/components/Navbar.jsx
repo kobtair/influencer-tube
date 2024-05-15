@@ -130,6 +130,14 @@ const Navbar = () => {
               >
                 Booking Requests
               </button>
+              <button
+                onClick={() => {
+                  navigate("edit-profile");
+                }}
+                className="bg-white text-black rounded-3xl px-5 py-3 mr-5"
+              >
+                Edit Profile
+              </button>
             </span>
           ) : (
             ""
