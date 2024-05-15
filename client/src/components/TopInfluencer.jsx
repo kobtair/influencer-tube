@@ -1,12 +1,8 @@
 import React from "react";
-import img1 from "../assets/free-images.jpg";
+import img1 from "../assets/avatar-placeholder.jpg";
 import { FaRegStar } from "react-icons/fa";
-const TopInfluencer = () => {
-  const dummyData = [
-    { location: "usa", name: "John", img: img1, type: "a/b/c" },
-    { location: "usa", name: "Emma", img: img1, type: "a/b/c" },
-    { location: "usa", name: "Michael", img: img1, type: "a/b/c" },
-  ];
+const TopInfluencer = ({influencers}) => {
+
   return (
     <>
       <div className="main bg-black flex justify-center m-0 p-20">
@@ -18,19 +14,19 @@ const TopInfluencer = () => {
             Professtional and high rated
           </div>
           <div className="cards grid grid-cols-3 gap-20 text-white  mt-16 ">
-            {dummyData.map((item) => (
+            {influencers.filter((_,i)=>i<3).map((item) => (
               <div key={item.id}>
                 <div
                   style={{
-                    backgroundImage: `url(${item.img})`,
+                    backgroundImage: `url(${img1})`,
                     backgroundSize: "cover",
                   }}
                   className="relative w-96 h-96 rounded-xl"
                 >
                   <div className="absolute bottom-0 w-full bg-black bg-opacity-40  px-5 py-3">
-                    <p className=" font-semibold">{item.name}</p>
-                    <p className="">{item.type}</p>
-                    <p className=" text-yellow-400">{item.location}</p>
+                    <p className=" font-semibold">{item.fullName}</p>
+                    <p className="">{item.niche}</p>
+                    
                   </div>
                   <p className="absolute flex items-center right-0 top-0">
                     4 <FaRegStar />

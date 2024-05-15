@@ -1,23 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IoIosSend } from "react-icons/io";
 import { BsChat } from "react-icons/bs";
+import axios from "axios";
 import { useState } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
 const ChatModal = ({ user, setIsModalOpen }) => {
+  const {loggedInUser} = useContext(AuthContext)
   const [messages, setMessages] = useState([
     {
-      text: "Hi, here is Emma Smith, a fashion creator and an influencer. Thanks for reaching me out. Kindly leave your message for me...",
-      sender: user,
+      text: `Hi, here is ${user.fullName} , a ${user.niche} and an influencer. Thanks for reaching me out. Kindly leave your message for me...`,
+      sender: user.fullName,
     },
   ]);
   const [inputValue, setInputValue] = useState("");
-  const handleMessageSubmit = (e) => {
+  const handleMessageSubmit = async (e) => {
     e.preventDefault();
     if (inputValue.trim() !== "") {
+      // Update local state
       setMessages([...messages, { text: inputValue, sender: "You" }]);
       setInputValue("");
+
+      // Send message to the endpoint
+      try {
+        const response = await axios.post(`http://localhost:3001/message/${user.username}`, {
+          sender: loggedInUser.firstName,
+          message: inputValue,
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
+
+
   return (
     <>
       <div className="fixed top-16 left-0 w-screen h-screen z-20 bg-gray-800 bg-opacity-50 flex">
@@ -27,7 +44,7 @@ const ChatModal = ({ user, setIsModalOpen }) => {
               {" "}
               <BsChat size={20} />
             <p className="font-semibold text-xl">Chat with influencer!</p>
-            <button onClick={()=>{}} className="text-2xl ">X</button>
+            <button onClick={()=>{setIsModalOpen(false)}} className="text-2xl ">X</button>
             </div>
           </div>
           <div className="">

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import artpic from "../assets/Art.png";
-// import Inputs from "../components/Inputs";
 import dot from "../assets/Capture.PNG";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { MdCheckBox } from "react-icons/md";
 import axios from "axios";
+import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 const SignUpAsInfluencer = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [email, setEmail] = useState("");
@@ -15,6 +17,37 @@ const SignUpAsInfluencer = () => {
   const [position, setPosition] = useState("first");
   const [instagramLink, setInstagramLink] = useState("");
   const [inputType, setInputType] = useState("password");
+  const { setLoggedInUser, setIsLoggedIn, isLoggedIn, setLoggedInAs } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
+
+  function isStrongPassword(password) {
+    // Regular expressions for checking password requirements
+    const hasMinimumLength = /.{8,}/;
+    const hasLetter = /[a-zA-Z]/;
+    const hasNumber = /[0-9]/;
+    const hasSpecialCharacter = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+    // Check if all requirements are met
+    const meetsMinimumLength = hasMinimumLength.test(password);
+    const hasLetterCharacter = hasLetter.test(password);
+    const hasNumberCharacter = hasNumber.test(password);
+    const hasSpecialCharacterCharacter = hasSpecialCharacter.test(password);
+
+    // Return true if all requirements are met, false otherwise
+    return (
+      meetsMinimumLength &&
+      hasLetterCharacter &&
+      hasNumberCharacter &&
+      hasSpecialCharacterCharacter
+    );
+  }
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,6 +55,11 @@ const SignUpAsInfluencer = () => {
       alert("passwords do not match");
       return;
     }
+    if (!isStrongPassword(password)) {
+      alert("Password not strong enough");
+      return;
+    }
+
     axios
       .post("http://localhost:3001/register/influencer", {
         fullName: firstName + " " + lastName,
@@ -31,9 +69,15 @@ const SignUpAsInfluencer = () => {
         niche: selectedOption,
       })
       .then((res) => {
-        console.log(res);
-        alert("User Registered Successfully")
-      }).catch(err=>alert(err.message));
+        setIsLoggedIn(true);
+        setLoggedInUser(res.data);
+        setLoggedInAs("influencer");
+        localStorage.setItem("loggedInUser", JSON.stringify(res.data));
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("loggedInAs", "influencer");
+        navigate("/dashboard");
+      })
+      .catch((err) => alert(err.message));
   };
 
   const handleShuffle = () => {
@@ -51,7 +95,10 @@ const SignUpAsInfluencer = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="main flex justify-center bg-white items-center w-[100vw] h-[100vh]">
+      <form
+        onSubmit={handleSubmit}
+        className="main flex justify-center bg-white items-center w-[100vw] h-[100vh]"
+      >
         <div className="left">
           <img className="w-[40vw] h-[90vh]" src={artpic} alt="" />
         </div>

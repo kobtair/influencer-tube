@@ -1,5 +1,5 @@
 import React from 'react'
-import image from "../assets/profile.jpg"
+import image from "../assets/avatar-placeholder.jpg"
 import { Link } from 'react-router-dom'
 
 const InfluencerCard = ({item}) => {

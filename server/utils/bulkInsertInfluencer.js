@@ -17,7 +17,7 @@ async function fetchUserInfo(username) {
         headers: headers,
         timeout: 40000, 
       });
-      return response.data; // Move this line inside the then block
+      return response.data; 
     } catch (error) {
       console.error(`Failed to fetch user information for ${username}:`, error);
       throw error;
@@ -48,22 +48,21 @@ async function fetchUserInfo(username) {
           profilePic: profile_pic_url_hd,
           username,
           images
-        }); // Store user information in the database
+        }); 
         console.log(`Stored information for user ${username}`);
       } catch (error) {
-        // Handle error (e.g., retry logic)
         console.error(`Failed to process user :`, error);
       }
     }
   }
   
-//   processUsernames(instagramUsernames)
-//   .then(() => {
-//     console.log("Processing complete");
-//   })
-//   .catch((error) => {
-//     console.error("An error occurred during processing:", error);
-//   });
+  processUsernames(instagramUsernames)
+  .then(() => {
+    console.log("Processing complete");
+  })
+  .catch((error) => {
+    console.error("An error occurred during processing:", error);
+  });
 
 
   modeule.exports = processUsernames

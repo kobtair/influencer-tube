@@ -2,7 +2,8 @@ import { FaPhoneAlt  } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import { AiFillInstagram } from "react-icons/ai";
-
+import { Link } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 
 const Footer = () => {
   return (
@@ -34,10 +35,10 @@ const Footer = () => {
         <div className="links">
           <h3 className="text-3xl font-semibold">Links</h3>
           <ul className="flex flex-col gap-y-3 mt-4 ">
-            <li className="font-thin cursor-pointer hover:underline">FAQ's</li>
-            <li className="font-thin cursor-pointer hover:underline">Join as Brand</li>
-            <li className="font-thin cursor-pointer hover:underline">Collaboration Hub</li>
-            <li className="font-thin cursor-pointer hover:underline">Reviews</li>
+           <ScrollLink to="faqs" smooth="true"><li className="font-thin cursor-pointer hover:underline">FAQ's</li></ScrollLink> 
+            <Link to={'/register/brand'}><li className="font-thin cursor-pointer hover:underline">Join as Brand</li></Link>
+            <Link to={'/collaboration-hub'}><li className="font-thin cursor-pointer hover:underline">Collaboration Hub</li></Link>
+            <ScrollLink to="reviews" smooth="true"><li className="font-thin cursor-pointer hover:underline">Reviews</li></ScrollLink>
           </ul>
         </div>
       </div>

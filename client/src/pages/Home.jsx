@@ -3,6 +3,7 @@ import hero from "../assets/home-hero.png";
 import Carousel from "../components/Carousel";
 import FAQS from "../components/FAQS";
 import Footer from "../components/Footer";
+import { Link as ScrollLink } from "react-scroll" ;
 
 const Home = () => {
   return (
@@ -16,9 +17,11 @@ const Home = () => {
             Your Brand Reach, Drive Engagement, and Achieve Remarkable Growth.
           </p>
           <div className="button-group flex gap-x-5">
+            <ScrollLink to="faqs" smooth="true">
             <button className="bg-white text-black rounded-3xl px-10 py-4">
               How it Works
             </button>
+            </ScrollLink>
             <Link to={"/register/brand"}>
             <button className="bg-white text-black rounded-3xl px-10 py-4">
               Join as a Brand
@@ -51,8 +54,10 @@ const Home = () => {
           </div>
         </div>
       </div> 
-      <div className="carousel mt-36"> <Carousel /></div>
-      <FAQS />
+      <div id="reviews" className="carousel mt-36"> <Carousel /></div>
+      <div id="faqs">
+      <FAQS  />
+      </div>
       <div id="contact" className="footer">
 
       <Footer id="contact" />

@@ -1,36 +1,69 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import artpic from "../assets/Art.png";
 import dot from "../assets/Capture.PNG";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { MdCheckBox } from "react-icons/md";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Login = () => {
-
-  const {setIsLoggedIn} = useContext(AuthContext)
-
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    if(isInfluencer){
-      try {
-        const response = await axios.post('http://localhost:3001/login/influencer', { email, password });
-        // Extract JWT access token from response and store it
-        const accessToken = response.data.accessToken;
-        localStorage.setItem('accessToken', accessToken);
-        setIsLoggedIn(true);
-      } catch (error) {
-        console.error('Error signing in:', error);
-      }
+  const { setIsLoggedIn, setLoggedInUser, setLoggedInAs, isLoggedIn } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
     }
-    else{
-      try {
-        const response = await axios.post('http://localhost:3001/login/brand', { email, password });
-        // Extract JWT access token from response and store it
-        const accessToken = response.data.accessToken;
-        localStorage.setItem('accessToken', accessToken);
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(email ==="admin" && password ==="admin"){
+      setLoggedInUser({
+        username: "admin"
+
+      });
         setIsLoggedIn(true);
+        setLoggedInAs("admin")
+        localStorage.setItem("loggedInUser", JSON.stringify({username: "admin"}));
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("loggedInAs", "influencer");
+        navigate("/dashboard");
+        return
+      
+    }
+    if (isInfluencer) {
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/login/influencer",
+          { email, password }
+        );
+        setLoggedInUser(response.data);
+        setIsLoggedIn(true);
+        setLoggedInAs("influencer")
+        localStorage.setItem("loggedInUser", JSON.stringify(response.data));
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("loggedInAs", "influencer");
+        navigate("/dashboard");
       } catch (error) {
-        console.error('Error signing in:', error);
+        alert("Error signing in:", error);
+      }
+    } else {
+      try {
+        const response = await axios.post("http://localhost:3001/login/brand", {
+          email,
+          password,
+        });
+        setLoggedInUser(response.data);
+        setIsLoggedIn(true);
+        setLoggedInAs("brand")
+        localStorage.setItem("loggedInUser", JSON.stringify(response.data));
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("loggedInAs", "brand");
+        navigate("/dashboard");
+      } catch (error) {
+        alert("Error signing in:", error);
       }
     }
   };
@@ -65,7 +98,9 @@ const Login = () => {
             <div className="text flex mb-4">
               dont have an account?
               <p className="font-semibold cursor-pointer">
-                <u>Sign Up</u>
+                <Link to="/register/brand">
+                  <u>Sign Up</u>
+                </Link>
               </p>
             </div>
             <div className="mb-4">

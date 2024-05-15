@@ -50,12 +50,25 @@ const influencerSchema = new mongoose.Schema({
   },
   images: {
     type: [String],
-
-  }
-  // biography,
-
-  //       profile_pic_url_hd,
-  //       username,
+  },
+  messages: [
+    {
+      sender: String,
+      messages: [
+        {
+          message: String,
+          timestamp: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+    },
+  ],
+  bookingRequest: {
+    type: [Object], // Define bookingRequest as an array of objects
+    default: []     // Default value is an empty array
+  },
 });
 
 const Influencer = mongoose.model("Influencer", influencerSchema);

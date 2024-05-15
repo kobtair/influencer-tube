@@ -1,17 +1,19 @@
-import profile from "../assets/profile.jpg";
+import profile from "../assets/avatar-placeholder.jpg";
 import InfluencerCard from "../components/InfluencerCard";
 // import img1 from "../assets/free-images.jpg";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ChatModal from "../components/ChatModal";
+import BookingModal from "../components/BookingModal";
 
 const Profile = () => {
-  const {id} = useParams()
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { id } = useParams();
+  const [isChatModalOpen, setIsChatModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [influencers, setInfluencers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [profileData, setProfileData] = useState({})
+  const [profileData, setProfileData] = useState({});
 
   useEffect(() => {
     const fetchInfluencers = async () => {
@@ -50,19 +52,26 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      {isModalOpen && (
-        <ChatModal setIsModalOpen={setIsModalOpen} user={profileData.fullName} />
+      {isChatModalOpen && (
+        <ChatModal
+          setIsModalOpen={setIsChatModalOpen}
+          user={profileData}
+        />
       )}
+      {isBookingModalOpen && ( 
+        <BookingModal
+          setIsBookingModalOpen={setIsBookingModalOpen}
+        />
+      )}
+
       <div className="profile-hero py-20 flex items-center justify-between px-20 bg-black text-white">
         <div className="profile-text w-1/2 px-28 flex flex-col gap-y-10">
           <h2 className="text-5xl font-semibold">
-            I am <span className="text-[#FFC107]">{profileData.fullName}</span> <br />A 
-            {" "}
-            <span className="text-[#FFC107]">{profileData.niche}</span>
+            I am <span className="text-[#FFC107]">{profileData.fullName}</span>{" "}
+            <br />A <span className="text-[#FFC107]">{profileData.niche}</span>
           </h2>
           <p className="text-xl font-normal">
-            I have been a fashion creator for many years. I’m embracing beauty,
-            fashion, and lifestyle. Let's create memories together!
+           {profileData.biography}
           </p>
           <div className="profile-stats flex  text-xl font-medium gap-x-12 divide-x-4 divide-white">
             <span className="px-4">
@@ -77,12 +86,15 @@ const Profile = () => {
           </div>
           <div className="profile-buttons flex gap-x-6">
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsChatModalOpen(true)}
               className="px-7 rounded-md font-semibold py-3 bg-gray-500 "
             >
               Message
             </button>
-            <button className="px-7 rounded-md font-semibold py-3 bg-white text-black ">
+            <button
+              onClick={() => setIsBookingModalOpen(true)}
+              className="px-7 rounded-md font-semibold py-3 bg-white text-black "
+            >
               Book Now
             </button>
             <button className="px-7 rounded-md font-semibold py-3 bg-[#2746E6] ">
