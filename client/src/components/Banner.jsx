@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-scroll";
 import banner from "../assets/Banner.png";
 const Banner = () => {
   return (
@@ -22,9 +23,11 @@ const Banner = () => {
               perferendis cupiditate, iste sit corporis eveniet commodi
               excepturi?
             </div>
+            <Link to="top-influencers" smooth="true">
             <button className="bg-black  text-white w-40 h-16 py-2 px-3 mt-4">
               Discover
             </button>
+            </Link>
           </div>
         </div>
       </div>

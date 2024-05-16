@@ -97,11 +97,4 @@ const instagramUsernames = [
     "jackomillar"
   ];
   
-  // Creating an array of objects with Instagram usernames
-  const instagramUserObjects = instagramUsernames.map((username, index) => ({
-    id: index + 1,
-    username: username
-  }));
-  
-  console.log(instagramUserObjects);
-  
+  module.exports = instagramUsernames
