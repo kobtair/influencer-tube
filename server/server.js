@@ -3,15 +3,14 @@ const cors = require("cors");
 const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose");
-const Admin = require("./models/Admin")
+const Admin = require("./models/Admin");
 const User = require("./models/User");
 const bcrypt = require("bcrypt");
 const Influencer = require("./models/Influencer");
 const { createTokens, validateToken } = require("./JWT");
 const cookieParser = require("cookie-parser");
 const instagramUsernames = require("./instaUsernames");
-
-
+const Gig = require("./models/Gig");
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -32,7 +31,7 @@ app.get("/products/:id", (req, res) => {
 
 app.put("/influencers/:username", async (req, res) => {
   const { username } = req.params;
-  const { fullName, biography, email, niche, instagramLink,  } = req.body;
+  const { fullName, biography, email, niche, instagramLink, profilePic } = req.body;
 
   try {
     // Find the influencer by their username
@@ -48,6 +47,7 @@ app.put("/influencers/:username", async (req, res) => {
     if (email) influencer.email = email;
     if (niche) influencer.niche = niche;
     if (instagramLink) influencer.instagramLink = instagramLink;
+    if (profilePic) influencer.profilePic = profilePic;
 
     // Save the updated influencer document
     await influencer.save();
@@ -59,46 +59,66 @@ app.put("/influencers/:username", async (req, res) => {
   }
 });
 
-app.get('/admin/contact', async (req, res) => {
+app.post("/gigs", async (req, res) => {
+  try {
+    const { owner, niche, description } = req.body;
+    const newGig = new Gig({ owner, niche, description });
+    await newGig.save();
+    res.status(201).json(newGig);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// GET endpoint to get all gigs
+app.get("/gigs", async (req, res) => {
+  try {
+    const gigs = await Gig.find();
+    res.json(gigs);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/admin/contact", async (req, res) => {
   try {
     // Find admin by username
-    const admin = await Admin.findOne({ username: 'admin' }); // Change 'admin' to the username you're using
-    
+    const admin = await Admin.findOne({ username: "admin" }); // Change 'admin' to the username you're using
+
     if (!admin) {
-      return res.status(404).json({ message: 'Admin not found' });
+      return res.status(404).json({ message: "Admin not found" });
     }
 
     res.status(200).json(admin.contactDetails);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: "Server Error" });
   }
 });
 
-app.post('/admin/contact', async (req, res) => {
+app.post("/admin/contact", async (req, res) => {
   try {
     const { username, contactDetails } = req.body;
-    
+
     // Find the admin by username
     const admin = await Admin.findOne({ username });
 
     if (!admin) {
-      return res.status(404).json({ message: 'Admin not found' });
+      return res.status(404).json({ message: "Admin not found" });
     }
 
     // Add contact details to the admin
     admin.contactDetails.push(contactDetails);
-    
+
     // Save the admin with the updated contact details
     await admin.save();
-    
-    res.status(201).json({ message: 'Contact details added successfully' });
+
+    res.status(201).json({ message: "Contact details added successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: "Server Error" });
   }
 });
-
 
 app.post("/register/brand", async (req, res) => {
   const data = req.body;
@@ -153,7 +173,7 @@ app.post("/booking-request/:username", async (req, res) => {
   const { username } = req.params;
   try {
     const { name, email, phone, address, date, details } = req.body.formData;
-    console.log(req.body)
+    console.log(req.body);
 
     // Find the influencer based on the provided email
     const influencer = await Influencer.findOne({ username });
@@ -182,8 +202,6 @@ app.post("/booking-request/:username", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
 
 // GET endpoint to fetch all booking requests
 app.get("/booking-requests/:username", async (req, res) => {
@@ -242,8 +260,6 @@ app.put("/approve-booking/:username/:requestId", async (req, res) => {
   }
 });
 
-
-
 app.post("/login/influencer", async (req, res) => {
   const data = req.body;
   const user = await Influencer.findOne({ email: data.email });
@@ -259,7 +275,6 @@ app.post("/login/influencer", async (req, res) => {
   });
 });
 
-
 app.post("/message/:username", async (req, res) => {
   const { sender, message } = req.body;
   const { username } = req.params;
@@ -269,12 +284,14 @@ app.post("/message/:username", async (req, res) => {
     const influencer = await Influencer.findOne({ username });
 
     if (!influencer) {
-      return res.status(404).json({ success: false, message: "Influencer not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Influencer not found" });
     }
 
     // Check if the sender already exists in the messages array
     let senderExists = false;
-    influencer.messages.forEach(msg => {
+    influencer.messages.forEach((msg) => {
       if (msg.sender === sender) {
         // If the sender exists, add the message to their existing messages
         msg.messages.push({ message });
@@ -290,13 +307,14 @@ app.post("/message/:username", async (req, res) => {
     // Save the updated influencer document
     await influencer.save();
 
-    res.status(200).json({ success: true, message: "Message received successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Message received successfully" });
   } catch (error) {
     console.error("Error saving message:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
 
 app.get("/messages/:username", async (req, res) => {
   const { username } = req.params;
@@ -306,7 +324,9 @@ app.get("/messages/:username", async (req, res) => {
     const influencer = await Influencer.findOne({ username });
 
     if (!influencer) {
-      return res.status(404).json({ success: false, message: "Influencer not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Influencer not found" });
     }
 
     // Get all messages for the influencer
@@ -318,7 +338,6 @@ app.get("/messages/:username", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
 
 app.get("/influencers", async (req, res) => {
   try {

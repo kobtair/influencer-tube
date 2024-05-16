@@ -8,6 +8,7 @@ import { Link as ScrollLink } from "react-scroll" ;
 const Home = () => {
   return (
     <div className="home-container px-28  bg-black text-white">
+      <img src="https://res.cloudinary.com/dqdtdhr16/image/upload/v1715870637/influencer/afvhvbesuxbmq2qxikw4.webp" alt="" />
       <div className="hero flex py-28 items-center justify-between">
         <div className="hero-text flex flex-col gap-y-10 w-1/2">
           <h1 className="text-5xl font-bold">Help Your Business GROW</h1>
