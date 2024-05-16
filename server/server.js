@@ -96,6 +96,29 @@ app.get("/admin/contact", async (req, res) => {
   }
 });
 
+app.put("/admin/updateRefreshToken", async (req, res) => {
+  
+  const { refreshToken } = req.body;
+
+  try {
+    // Find the admin with username "admin"
+    const admin = await Admin.findOneAndUpdate(
+      { username: "admin" },
+      { refreshToken: refreshToken },
+      { new: true }
+    );
+
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    res.status(200).json({ message: "Refresh token updated successfully", admin });
+  } catch (error) {
+    console.error("Error updating refresh token:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 app.post("/admin/contact", async (req, res) => {
   try {
     const { username, contactDetails } = req.body;

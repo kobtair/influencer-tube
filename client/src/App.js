@@ -21,6 +21,7 @@ import EditProfile from "./pages/EditProfile";
 import ContactDetailsPage from "./pages/ContactDetailsPage";
 import UploadForm from "./components/UploadForm";
 import GigList from "./pages/GigList";
+import UpdateRefreshTokenForm from "./pages/UpdateRefreshTokenForm";
 
 function App() {
   const { setIsLoggedIn, setLoggedInUser, setLoggedInAs } =
@@ -58,6 +59,7 @@ function App() {
         <Route path="/admin/contact" element={<ContactDetailsPage />} />
         <Route path="/gig/upload" element={<UploadForm />} />
         <Route path="/gigs" element={<GigList />} />
+        <Route path="/token/update" element={<UpdateRefreshTokenForm />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

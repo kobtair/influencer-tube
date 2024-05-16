@@ -77,6 +77,15 @@ const Navbar = () => {
               >
                 Contact Details
               </button>
+              <button
+                onClick={() => {
+                  navigate("/token/update");
+                }}
+                className="bg-white text-black rounded-3xl px-5 py-3 mr-5"
+              >
+                Update Refresh Token
+              </button>
+              
             </span>
           ) : (
             ""

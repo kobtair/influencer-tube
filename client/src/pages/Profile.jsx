@@ -1,4 +1,4 @@
-import profile from "../assets/avatar-placeholder.jpg";
+import image from "../assets/avatar-placeholder.jpg";
 import InfluencerCard from "../components/InfluencerCard";
 // import img1 from "../assets/free-images.jpg";
 import { useEffect, useState } from "react";
@@ -103,13 +103,13 @@ const Profile = () => {
           </div>
         </div>
         <div className="profile-image ">
-          <img className="max-w-full" src={profile} alt="prof" />
+          <img className="max-w-full" src={profileData.profilePic.includes("cloudinary")? profileData.profilePic : image} alt="prof" />
         </div>
       </div>
       <div className="profile-gallery px-20 flex flex-col items-center py-20">
         <h2 className="text-5xl  font-bold">Photos Gallery</h2>
         <div className="grid grid-cols-5 gap-7">
-          <img src={profile} alt="" />
+          <img src={profileData.profilePic.includes("cloudinary")? profileData.profilePic : image} alt="" />
         </div>
       </div>
       <div className="related-profiles px-20 text-white bg-black flex flex-col items-center py-20">
