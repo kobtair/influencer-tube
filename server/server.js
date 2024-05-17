@@ -96,6 +96,57 @@ app.get("/admin/contact", async (req, res) => {
   }
 });
 
+app.post("/:influencerId/follow", async (req, res) => {
+  try {
+    const { influencerId } = req.params;
+    const { email } = req.body; // Assuming userId is passed in the body
+
+    const influencer = await Influencer.findById(influencerId);
+
+    if (!influencer) {
+      return res.status(404).json({ message: "Influencer not found" });
+    }
+
+    if (!influencer.followers.includes(email)) {
+      influencer.followers.push(email);
+      influencer.followerCount = influencer.followerCount + 1;
+      await influencer.save();
+      return res.status(200).json({ message: "Followed successfully" });
+    } else {
+      return res.status(400).json({ message: "Already following" });
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// Unfollow an influencer
+app.post("/:influencerId/unfollow", async (req, res) => {
+  try {
+    const { influencerId } = req.params;
+    const { email } = req.body; // Assuming userId is passed in the body
+
+    const influencer = await Influencer.findById(influencerId);
+
+    if (!influencer) {
+      return res.status(404).json({ message: "Influencer not found" });
+    }
+
+    if (influencer.followers.includes(email)) {
+      influencer.followers = influencer.followers.filter((follower) => follower !== email);
+      influencer.followerCount = influencer.followerCount - 1;
+      await influencer.save();
+      return res.status(200).json({ message: "Unfollowed successfully" });
+    } else {
+      return res.status(400).json({ message: "Not following" });
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: "Server error", error });
+  }
+});
+
 app.put("/admin/updateRefreshToken", async (req, res) => {
   
   const { refreshToken } = req.body;
