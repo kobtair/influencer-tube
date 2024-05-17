@@ -7,7 +7,7 @@ const InfluencerCard = ({item}) => {
     <div key={item.id}>
     <div className="wrap ">
       <img
-        className=" rounded-t-lg "
+        className=" rounded-t-lg min-w-full "
         src={item.profilePic? (item.profilePic.includes("cloudinary")? item.profilePic : image ): image}
         alt={item.fullName}
       />
