@@ -101,7 +101,7 @@ const Navbar = () => {
                 </button>
               </Link>
             </div>
-          ) : pathname === "/" ? (
+          ) : pathname === "/" && loggedInAs === "brand" ? (
             <Link to={"/dashboard"}>
               <button className="bg-white text-black rounded-3xl px-5 py-3 mr-5">
                 Dashboard
