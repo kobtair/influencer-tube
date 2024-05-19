@@ -7,8 +7,8 @@ const InfluencerCard = ({item}) => {
     <div key={item.id}>
     <div className="wrap ">
       <img
-        className=" rounded-t-lg "
-        src={image}
+        className=" rounded-t-lg min-w-full "
+        src={item.profilePic? (item.profilePic.includes("cloudinary")? item.profilePic : image ): image}
         alt={item.fullName}
       />
       <div className="imgdata flex justify-between bg-white px-10 py-3">

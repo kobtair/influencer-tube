@@ -18,7 +18,7 @@ const TopInfluencer = ({influencers}) => {
               <div key={item.id}>
                 <div
                   style={{
-                    backgroundImage: `url(${img1})`,
+                    backgroundImage: `url(${item.profilePic? (item.profilePic.includes("cloudinary")? item.profilePic : img1 ): img1})`,
                     backgroundSize: "cover",
                   }}
                   className="relative w-96 h-96 rounded-xl"

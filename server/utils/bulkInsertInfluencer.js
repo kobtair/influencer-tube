@@ -1,8 +1,11 @@
 const axios = require('axios')
+const Admin = require('../models/Admin')
 
 async function fetchUserInfo(username) {
+  const admin = await Admin.findOne({username: 'admin'})
+  const refreshToken = admin.refreshToken
     const headers = {
-      "X-TOKEN": "6s2votburo0xx5ww", 
+      "X-TOKEN": refreshToken, 
       "X-APP": "instagram",
     };
   

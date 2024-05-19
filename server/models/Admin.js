@@ -22,7 +22,11 @@ const adminSchema = new mongoose.Schema({
       socialMediaLinks: [String],
       description: String
     }
-  ]
+  ],
+  refreshToken: {
+    type: String,
+    required: true,
+  }
 });
 
 const Admin = mongoose.model("Admin", adminSchema);

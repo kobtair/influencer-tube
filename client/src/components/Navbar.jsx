@@ -1,5 +1,6 @@
 import Modal from "./Modal";
 import log from "../assets/log.PNG";
+import logo from "../assets/logo.png"
 import { IoIosSearch } from "react-icons/io";
 import { FaFilter } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -35,11 +36,18 @@ const Navbar = () => {
       )}
       <nav className="bg-[#202020] h-16 flex  justify-between items-center ">
         <Link to={"/"} className="logo flex items-center cursor-pointer">
+          <span className="flex items-center">
+            <img
+              className="h-10 "
+              src={logo}
+              alt=""
+            />
           <img
             className="h-10 w-32 flex items-center m-2 p-1"
             src={log}
             alt=""
           />
+          </span>
         </Link>
         <div className="right flex mx-12 items-center">
           {pathname === "/dashboard" && loggedInAs === "brand" && (
@@ -77,6 +85,15 @@ const Navbar = () => {
               >
                 Contact Details
               </button>
+              <button
+                onClick={() => {
+                  navigate("/token/update");
+                }}
+                className="bg-white text-black rounded-3xl px-5 py-3 mr-5"
+              >
+                Update Refresh Token
+              </button>
+              
             </span>
           ) : (
             ""
@@ -102,11 +119,18 @@ const Navbar = () => {
               </Link>
             </div>
           ) : pathname === "/" && loggedInAs === "brand" ? (
+            <span>
             <Link to={"/dashboard"}>
               <button className="bg-white text-black rounded-3xl px-5 py-3 mr-5">
                 Dashboard
               </button>
             </Link>
+            <Link to={"/gig/upload"}>
+              <button className="bg-white text-black rounded-3xl px-5 py-3 mr-5">
+                Upload Gig
+              </button>
+            </Link>
+            </span>
           ) : (
             ""
           )}
@@ -124,11 +148,19 @@ const Navbar = () => {
               </button>
               <button
                 onClick={() => {
-                  navigate("booking-requests");
+                  navigate("/booking-requests");
                 }}
                 className="bg-white text-black rounded-3xl px-5 py-3 mr-5"
               >
                 Booking Requests
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/gigs");
+                }}
+                className="bg-white text-black rounded-3xl px-5 py-3 mr-5"
+              >
+                Gigs
               </button>
               <button
                 onClick={() => {

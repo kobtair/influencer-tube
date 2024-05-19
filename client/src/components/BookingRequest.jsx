@@ -10,9 +10,9 @@ const BookingRequestsPage = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // if(loggedInAs !== "influencer"){
-    //     navigate("/")
-    // }
+    if(loggedInAs !== "influencer"){
+        navigate("/")
+    }
     fetchBookingRequests();
   }, []);
 
@@ -38,6 +38,7 @@ const BookingRequestsPage = () => {
   return (
     <div>
       <h1>Booking Requests</h1>
+      {bookingRequests.length === 0 ?  <h1 className="text-3xl text-white">There are no booking requests for you </h1> : ""}
       <ul className="">
         {bookingRequests.map((request) => (
           <li className="text-white flex justify-around" key={request._id}>
